@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- put this in CSS -->
     <style>
         .hide {
             display: none;
@@ -12,22 +13,27 @@
     </style>
 </head>
 <body>
+    <!-- Welcome Screen -->
     <!-- add class="hide" in JS -->
     <div id="welcome">
         <h1>Welcome to the Ziggy Quiz!</h1>
-        <p>How well do you know popstar David Bowie? Each incorrect answer deducts 3 seconds from the timer. Click below to begin</p>
-        <button>START</button>
+        <p>How well do you know popstar David Bowie? Each incorrect answer deducts 5 seconds from the timer. Click below to begin:</p>
+        <button id=startButton>START</button>
     </div>
+    
+    <!-- Timer -->
+    <h2 id="timer" style="text-align: center;"></h2>
+    <div id="countdown"></div>
 
     <!-- Question #1 -->
     <div id="questions">
         <!-- Add click event listener to div to listen to click from child elements -->
-        <h2>Question text</h2>
+        <h3>Question text</h3>
         <button data-answer="wrong-answer"></button>
         <button data-answer="right-answer"></button>
         <button data-answer="wrong-answer"></button>
         <button data-answer="wrong-answer"></button>
     </div>
-<script src=game.js></script>
+<script src=assets/js/game.js></script>
 </body>
 </html>
