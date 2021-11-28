@@ -4,21 +4,51 @@ var countdownEl = document.getElementById("countdown");
 var startButton = document.getElementById("startButton");
 var secondsLeft = 60;
 
-function setTime() {
+// Leaderboard
+var correctAnswers = 0;
+var incorrectAnswers = 0;
+var timerInterval;
+
+function startGame() {
   // Sets interval in variable
-  var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + " seconds remaining.";
+    timerInterval = setInterval(function() {
+        secondsLeft--;
+        timeEl.textContent = secondsLeft + " seconds remaining.";
 
-    if(secondsLeft === 0) {
-      // Stops execution of action at set interval
-      clearInterval(timerInterval);
-      // Calls function to create and append image
-      sendMessage();
-    }
+        if(secondsLeft === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval);
+            // Calls function to create and append image
+            sendMessage();
+        }
 
-  }, 1000);
+    }, 1000);
+// loadQuestion & hide welcome
+    loadQuestion();
 }
+
+function loadQuestion() {
+    var currentQuestion = document.getElementById("questionText");
+    currentQuestion.textContent = questionBank[0].question;
+    var answerButtons = document.getElementsByClassName("answerButtons");
+    for ( var i = 0; i < answerButtons.length; i++ ) {
+        answerButtons[i].textContent = questionBank[0].multipleChoiceOptions[i];
+
+        if ( questionBank[0].correct === i ) {
+            answerButtons[i].dataset.answer = true;
+        }
+
+    }
+    
+}
+
+
+// add event listener to buttons and check if true
+
+// record and save to leaderboard
+
+
+
 
 // Function to create and append colorsplosion image
 //  CHANGE THIS TO END GAME
@@ -30,17 +60,12 @@ function sendMessage() {
 
 }
 
-startButton.addEventListener('click', setTime);
-
-
-
-
-
+startButton.addEventListener('click', startGame);
 
 
 
 var questionsEl = document.getElementById('questions');
-var questions = [
+var questionBank = [
     {
         question: "Which of the following is NOT one of David Bowie’s alter egos?",
         multipleChoiceOptions: [
@@ -49,7 +74,7 @@ var questions = [
             "The Thin White Duke",
             "The Groovy Space Wizard"
         ],
-        correct: "The Groovy Space Wizard"
+        correct: 3
     },
     {
         question: "Which group did David Bowie found in his teens?",
@@ -59,7 +84,7 @@ var questions = [
             "The Society for the Prevention of Cruelty to Animals",
             "The rock band Tin Machine"
         ],
-        correct: "The Society for the Prevention fo Cruelty to Long-Haired Men"
+        correct: 0
     },
     {
         question: "What is the name of the single Bowie released in 1969, which was played over the BBC’s coverage of Apollo 11’s lunar landing and again in the Tesla Roadster Elon Musk launched into space in 2018?",
@@ -69,7 +94,7 @@ var questions = [
             "Rock-n-Roll Moondream",
             "Ziggy Stardust"
         ],
-        correct: "Space Oddity"
+        correct: 1
     },
     {
         question: "Which animated show did David Bowie voice a character for?",
@@ -79,7 +104,7 @@ var questions = [
             "Family Guy",
             "Spongebob SquarePants"
         ],
-        correct: "Spongebob SquarePants"
+        correct: 3
     },    {
         question: "What name was David Bowie was born with?",
         multipleChoiceOptions: [
@@ -88,7 +113,7 @@ var questions = [
             "Robert Bowie",
             "Terry David"
         ],
-        correct: "David Jones"
+        correct: 0
     }
 ];
 
