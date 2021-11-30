@@ -43,7 +43,7 @@ function loadQuestion() {
 }
 
 
-// add event listener to buttons and check if true
+// add event listener to buttons and check if true (data-answer)
 
 // record and save to leaderboard
 
