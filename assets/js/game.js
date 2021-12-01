@@ -2,15 +2,21 @@
 var timeEl = document.getElementById("timer");
 var countdownEl = document.getElementById("countdown");
 var startButton = document.getElementById("startButton");
+var questionsEl = document.getElementById('questions');
+var welcomeCard = document.getElementById('welcome')
 var secondsLeft = 60;
+var questionPointer = 0;
+var answerBox = document.querySelector('.answer-box')
+var submitBtn = document.getElementById('submit-btn')
 
-// Leaderboard
-var correctAnswers = 0;
-var incorrectAnswers = 0;
+// Timer
 var timerInterval;
 
 function startGame() {
   // Sets interval in variable
+  questionsEl.classList = 'question-card'
+  welcomeCard.setAttribute('class', 'hide')
+
     timerInterval = setInterval(function() {
         secondsLeft--;
         timeEl.textContent = secondsLeft + " seconds remaining.";
@@ -23,48 +29,57 @@ function startGame() {
         }
 
     }, 1000);
-// loadQuestion & hide welcome
-    loadQuestion();
+  loadQuestion()
 }
+// loadQuestion & hide welcome
+//     var welcomeCard = document.getElementById("welcome");
+//     welcomeCard.classList.add('hide');    
+//     loadQuestion();
+// }
+
+
 
 function loadQuestion() {
     var currentQuestion = document.getElementById("questionText");
-    currentQuestion.textContent = questionBank[0].question;
+    currentQuestion.textContent = questionBank[questionPointer].question;
     var answerButtons = document.getElementsByClassName("answerButtons");
-    for ( var i = 0; i < answerButtons.length; i++ ) {
-        answerButtons[i].textContent = questionBank[0].multipleChoiceOptions[i];
-
-        if ( questionBank[0].correct === i ) {
-            answerButtons[i].dataset.answer = true;
+    answerBox.innerHTML = '';
+    questionBank[questionPointer].multipleChoiceOptions.forEach(function(multipleChoiceOption, i) {
+        var choiceBtn = document.createElement('button');
+        choiceBtn.setAttribute('class', 'answerButtons');
+        if(questionBank[questionPointer].correct == i) {
+            choiceBtn.setAttribute('value', true)
+            choiceBtn.textContent =  i + 1 + '. ' + multipleChoiceOption;
+        } else {
+            choiceBtn.setAttribute('value', false);
+            choiceBtn.textContent =  i + 1 + '. ' + multipleChoiceOption;
         }
+        
 
-    }
-    
+        choiceBtn.onclick = answerQuestion;
+        answerBox.appendChild(choiceBtn)
+    })
 }
 
+startButton.addEventListener('click', startGame);
 
 // add event listener to buttons and check if true (data-answer)
 
 // record and save to leaderboard
 
-
-
-
 // Function to create and append colorsplosion image
 //  CHANGE THIS TO END GAME
-function sendMessage() {
-  timeEl.textContent = " ";
-  var imgEl = document.createElement("img");
-  imgEl.setAttribute("src", "images/image_1.jpg");
-  countdownEl.appendChild(imgEl);
+// function sendMessage() {
+//   timeEl.textContent = " ";
+//   var imgEl = document.createElement("img");
+//   imgEl.setAttribute("src", "images/image_1.jpg");
+//   countdownEl.appendChild(imgEl);
 
-}
-
-startButton.addEventListener('click', startGame);
+// }
 
 
 
-var questionsEl = document.getElementById('questions');
+
 var questionBank = [
     {
         question: "Which of the following is NOT one of David Bowie’s alter egos?",
@@ -105,7 +120,8 @@ var questionBank = [
             "Spongebob SquarePants"
         ],
         correct: 3
-    },    {
+    },    
+    {
         question: "What name was David Bowie was born with?",
         multipleChoiceOptions: [
             "David Jones",
@@ -117,34 +133,56 @@ var questionBank = [
     }
 ];
 
-var questionPointer = 0;
 
 function nextQuestion() {
     questionPointer++;
     // Display
 }
 
-function answerQuestion(event) {
-
-    // tells us which button was clicked
-    var buttonEl = event.target;
-    var answer = buttonEl.dataset.answer;
-
-    // compare user answer to current question answer
+function answerQuestion() {
     var currentQuestion = questions[questionPointer];
-    if( answer === currentQuestion.correct ) {
+    if(this.value == "true") {
+        console.log('correct')
+    } else if(this.value == 'false') {
+        secondsLeft -= 15;
+        if(secondsLeft < 0) {
+            secondsLeft = 0;
+        }
 
+        timerEl = secondsLeft;
+        console.log('incorrect')
     }
 
-    console.log(answer);
-
-    // if no questions left
-        // then end game
-    // else go to next question
-// or if questions left, go to next question, else end game
-
-    nextQuestion();
-
+    questionPointer++;
+    if(questionPointer === questionBank.length) {
+        quizOver()
+    } else {
+        loadQuestion();
+    }
 }
 
-questionsEl.addEventListener( 'click', answerQuestion );
+function quizOver() {
+    clearInterval(timerInterval);
+
+    var highscoreForm = document.getElementById('highscoreForm')
+    highscoreForm.removeAttribute('class');
+    questionsEl.setAttribute('class', 'hide');
+    var finalScore = document.getElementById('final-score');
+    finalScore.textContent=secondsLeft;
+}
+
+function saveHighscore () {
+    var initials = document.getElementById('initials').value.trim();
+    if(initials !== '') {
+        var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
+        var newScore = {
+            score: secondsLeft,
+            initials: initials
+        }
+        highscores.push(newScore)
+        window.localStorage.setItem('highscores', JSON.stringify(highscores));
+        // window.location.href = 'highscores.html'
+    }
+}
+
+submitBtn.onclick = saveHighscore;

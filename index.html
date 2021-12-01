@@ -8,7 +8,10 @@
     <title>Ziggy Quiz</title>
 </head>
 
-<body>
+<body> 
+    <!-- Banner -->
+    <div id="banner"></div>  
+
     <!-- Welcome Screen -->
     <!-- add class="hide" in JS -->
     <div class="welcome-card" id="welcome">
@@ -26,16 +29,17 @@
         <!-- Add click event listener to div to listen to click from child elements -->
         <h3 id=questionText></h3>
         <div class=answer-box>
-            <button class="answerButtons" data-answer=false></button>
-            <button class="answerButtons" data-answer=false></button>
-            <button class="answerButtons" data-answer=false></button>
-            <button class="answerButtons" data-answer=false></button>
-        <!-- <div class="next-button">
-            <button class="hide">NEXT</button>
-        </div> -->
+
         </div> 
     </div>
 
+    <div class="hide" id="highscoreForm">
+        <h2>Quiz is Over</h2>
+        <p>Your final score is <span id="final-score"></span></p>
+        <p>Enter your initials <input type="text" max="3" id="initials">
+            <button id="submit-btn">Submit</button>
+        </p>
+    </div>
 
 <script src=assets/js/game.js></script>
 </body>
