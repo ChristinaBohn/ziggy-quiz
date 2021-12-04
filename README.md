@@ -1,2 +1,2 @@
 # ziggy-quiz
-A fun facts quiz starring popstar David Bowie
+A Javascript-powered fun facts quiz starring popstar David Bowie.

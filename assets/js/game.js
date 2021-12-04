@@ -144,7 +144,7 @@ function answerQuestion() {
     if(this.value == "true") {
         console.log('correct')
     } else if(this.value == 'false') {
-        secondsLeft -= 15;
+        secondsLeft -= 10;
         if(secondsLeft < 0) {
             secondsLeft = 0;
         }
